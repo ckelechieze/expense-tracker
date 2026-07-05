@@ -31,7 +31,7 @@
      <!-- Income and Expenses Sections -->
     <section class="grid grid-cols-2 gap-4 mt-8">
         <!-- Income Card -->
-        <div class="bg-white rounded-lg shadow p-4 text-center">
+        <div class="bg-gray-100 rounded-lg shadow p-4 text-center">
             <h3 class="text-slate-500 text-sm">Income</h3>
             <p class="text-green-600 text-2xl font-bold mt-2" id="income">
                 #0.00
@@ -39,7 +39,7 @@
         </div>
 
         <!-- Expenses Card -->
-        <div class="bg-white rounded-lg shadow p-4 text-center">
+        <div class="bg-gray-100 rounded-lg shadow p-4 text-center">
             <h3 class="text-slate-500 text-sm">Expenses</h3>
             <p class="text-red-600 text-2xl font-bold mt-2" id="expenses">
                 #0.00
@@ -52,25 +52,30 @@
         <h2 class="text-xl font-semibold mb-4">Add Transaction</h2>
 
         <form id="transaction-form" class="bg-gray space-y-4">
-
+            <!-- Description Input -->
             <input 
+            id="description-input"
             type="text"
             placeholder="Description"
             class="w-full border rounded-lg p-3">
-
+            
+            <!-- Amount Input -->
             <input 
+            id="amount-input"
             type="number"
             placeholder="Amount"
             class="w-full border rounded-lg p-3">
 
+            <!-- Type Select -->
             <select
-            id="type"
+            id="type-select"
             class="w-full border rounded-lg p-3">
                 <option value="">Select Type</option>
                 <option value="income">Income</option>
                 <option value="expense">Expense</option>
             </select>
-
+            
+            <!-- Date Input -->
             <input 
             type="date"
             id="date"
@@ -85,12 +90,14 @@
         </form>
 
         <!-- Recent Transactions -->
-        <section class="mt-8 bg-white rounded-lg shadow p-6">
+        <section class="mt-8 bg-gray-100 rounded-lg shadow p-6">
             <h2 class="text-xl font-semibold mb-4">Recent Transactions</h2>
             <div id="transactions-list">
                 <p class="text-slate-500 text-center">No transactions yet.</p>
             </div>
         </section>
      </section>
+
+     <script src="./js/app.js"></script>
 </body>
 </html>
