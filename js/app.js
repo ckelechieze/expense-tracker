@@ -5,11 +5,8 @@ const amountInput = document.getElementById('amount-input');
 const typeSelect = document.getElementById('type-select');
 const dateInput = document.getElementById('date');
 
-console.log(transactions);
-
 const transactionForm = document.getElementById('transaction-form');
-
-console.log(transactionForm);
+const transactionList = document.getElementById('transactions-list');
 
 transactionForm.addEventListener('submit', function (event) {
     event.preventDefault();
@@ -22,4 +19,40 @@ transactionForm.addEventListener('submit', function (event) {
 
   transactions.push(transaction);
   console.log(transactions);
+  displayTransactions();
 });
+
+// Function to display transactions in the list
+function displayTransactions() {
+  transactionList.innerHTML = "";
+  for (const transaction of transactions) {
+    const transactionCard = document.createElement('div');
+    transactionCard.className = "flex justify-between items-center bg-gray-200 rounded-lg p-4 mb-3";
+
+    const leftSection = document.createElement('div');
+    leftSection.className = "flex flex-col";
+
+    const description = document.createElement('p');
+    description.textContent = transaction.description;
+
+    const date = document.createElement('p');
+    date.textContent = transaction.date;
+    date.classList.add("text-gray-500", "text-sm");
+
+    const amount = document.createElement('p');
+    if (transaction.type === 'income') {
+      amount.textContent = `+#${transaction.amount.toLocaleString()}`;
+      amount.classList.add("text-green-600", "font-bold");
+    } else {
+      amount.textContent = `-#${transaction.amount.toLocaleString()}`;
+      amount.classList.add("text-red-600", "font-bold");
+    }
+
+    leftSection.appendChild(description);
+    leftSection.appendChild(date);
+
+    transactionCard.appendChild(leftSection);
+    transactionCard.appendChild(amount);
+    transactionList.appendChild(transactionCard);
+  }
+}
