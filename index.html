@@ -53,33 +53,69 @@
 
         <form id="transaction-form" class="bg-gray space-y-4">
             <!-- Description Input -->
-            <input 
-            id="description-input"
-            type="text"
-            placeholder="Description"
-            class="w-full h-12 px-3 border rounded-lg">
+            <div>
+                <label
+                for="description-input"
+                class="block text-sm font-medium text-slate-700 mb-1"
+                >
+                Description
+                </label>
+
+                <input 
+                id="description-input"
+                type="text"
+                placeholder="Description"
+                class="w-full h-12 px-3 border rounded-lg">
+            </div>
             
             <!-- Amount Input -->
-            <input 
-            id="amount-input"
-            type="number"
-            placeholder="Amount"
-            class="w-full h-12 px-3 border rounded-lg">
+            <div>
+                <label
+                for="amount-input"
+                class="block text-sm font-medium text-slate-700 mb-1"
+                >
+                Amount
+                </label>
+
+                <input 
+                id="amount-input"
+                type="number"
+                placeholder="Amount"
+                class="w-full h-12 px-3 border rounded-lg">
+            </div>
 
             <!-- Type Select -->
-            <select
-            id="type-select"
-            class="w-full h-12 px-3 border rounded-lg">
-                <option value="">Select Type</option>
-                <option value="income">Income</option>
-                <option value="expense">Expense</option>
-            </select>
+            <div>
+                <label
+                for="type-select"
+                class="block text-sm font-medium text-slate-700 mb-1"
+                >
+                Type
+                </label>
+
+                <select
+                id="type-select"
+                class="w-full h-12 px-3 border rounded-lg">
+                    <option value="">Select Type</option>
+                    <option value="income">Income</option>
+                    <option value="expense">Expense</option>
+                </select>
+            </div>
 
             <!-- Date Input -->
-            <input 
-            type="date"
-            id="date"
-            class="w-[70%] px-12 border rounded-lg">
+            <div>
+                <label
+                for="date"
+                class="block text-sm font-medium text-slate-700 mb-1"
+                >
+                Date
+                </label>
+
+                <input 
+                type="date"
+                id="date"
+                class="w-full h-12 px-3 border rounded-lg">
+            </div>
 
             <button 
             type="submit"
