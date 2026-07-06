@@ -8,7 +8,7 @@
     <!-- Tailwind CSS Link-->
      <link rel="stylesheet" href="./src/output.css">
 </head>
-<body>
+<body class="bg-[#f8fafc]">
     <!-- Header-->
     <header class="py-8 text-center">
         <h1 class="text-3xl font-bold">Expense Tracker</h1>
@@ -29,9 +29,9 @@
     </section>
     
      <!-- Income and Expenses Sections -->
-    <section class="grid grid-cols-2 gap-4 mt-8">
+    <section class="grid grid-cols-2 gap-4 mt-8 px-4">
         <!-- Income Card -->
-        <div class="bg-gray-100 rounded-lg shadow p-4 text-center">
+        <div class="bg-[#e8f0fe] rounded-lg shadow p-4 text-center">
             <h3 class="text-slate-500 text-sm">Income</h3>
             <p class="text-green-600 text-2xl font-bold mt-2" id="income">
                 #0.00
@@ -39,7 +39,7 @@
         </div>
 
         <!-- Expenses Card -->
-        <div class="bg-gray-100 rounded-lg shadow p-4 text-center">
+        <div class="bg-[#e8f0fe] rounded-lg shadow p-4 text-center">
             <h3 class="text-slate-500 text-sm">Expenses</h3>
             <p class="text-red-600 text-2xl font-bold mt-2" id="expenses">
                 #0.00
@@ -79,8 +79,7 @@
             <input 
             type="date"
             id="date"
-            placeholder="Date"
-            class="w-full h-12 px-3 border rounded-lg appearance-none">
+            class="w-full h-12 px-3 border rounded-lg">
 
             <button 
             type="submit"
@@ -91,7 +90,7 @@
         </form>
 
         <!-- Recent Transactions -->
-        <section class="mt-8 bg-gray-100 rounded-lg shadow p-6">
+        <section class="mt-8 bg-[#e8f0fe] rounded-lg shadow p-6">
             <h2 class="text-xl text-center font-semibold mb-4">Recent Transactions</h2>
             <div id="transactions-list">
                 <p class="text-slate-500 text-center">No transactions yet</p>

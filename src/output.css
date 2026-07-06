@@ -256,6 +256,15 @@
     border-style: var(--tw-border-style);
     border-width: 1px;
   }
+  .bg-\[\#\] {
+    background-color: #;
+  }
+  .bg-\[\#e8f0fe\] {
+    background-color: #e8f0fe;
+  }
+  .bg-\[\#f8fafc\] {
+    background-color: #f8fafc;
+  }
   .bg-gray-100 {
     background-color: var(--color-gray-100);
   }
@@ -268,6 +277,9 @@
   .bg-slate-500 {
     background-color: var(--color-slate-500);
   }
+  .p-2 {
+    padding: calc(var(--spacing) * 2);
+  }
   .p-3 {
     padding: calc(var(--spacing) * 3);
   }
@@ -277,8 +289,14 @@
   .p-6 {
     padding: calc(var(--spacing) * 6);
   }
+  .px-2 {
+    padding-inline: calc(var(--spacing) * 2);
+  }
   .px-3 {
     padding-inline: calc(var(--spacing) * 3);
+  }
+  .px-4 {
+    padding-inline: calc(var(--spacing) * 4);
   }
   .py-8 {
     padding-block: calc(var(--spacing) * 8);
