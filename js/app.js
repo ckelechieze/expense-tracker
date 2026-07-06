@@ -5,6 +5,10 @@ const amountInput = document.getElementById('amount-input');
 const typeSelect = document.getElementById('type-select');
 const dateInput = document.getElementById('date');
 
+const balanceElement = document.getElementById('balance');
+const incomeElement = document.getElementById('income');
+const expensesElement = document.getElementById('expenses');
+
 const transactionForm = document.getElementById('transaction-form');
 const transactionList = document.getElementById('transactions-list');
 
@@ -20,6 +24,7 @@ transactionForm.addEventListener('submit', function (event) {
   transactions.push(transaction);
   console.log(transactions);
   displayTransactions();
+  updateSummary();
 });
 
 // Function to display transactions in the list
@@ -36,7 +41,7 @@ function displayTransactions() {
     description.textContent = transaction.description;
 
     const date = document.createElement('p');
-    date.textContent = transaction.date;
+    date.textContent = formatDate(transaction.date);
     date.classList.add("text-gray-500", "text-sm");
 
     const amount = document.createElement('p');
@@ -55,4 +60,36 @@ function displayTransactions() {
     transactionCard.appendChild(amount);
     transactionList.appendChild(transactionCard);
   }
+}
+
+// Function to display formated date
+function formatDate(dateString) {
+  const date = new Date(dateString);
+
+  return date.toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric"
+  });
+}
+
+// Function to update the balance, income, and expenses
+function updateSummary() {
+  let totalIncome = 0;
+  let totalExpenses = 0;
+  let balance = 0;
+
+  for (const transaction of transactions) {
+    if (transaction.type === 'income') {
+      totalIncome += transaction.amount;
+    } else {
+      totalExpenses += transaction.amount;
+    }
+  }
+
+  balance = totalIncome - totalExpenses;
+
+  balanceElement.textContent = `#${balance.toLocaleString()}`;
+  incomeElement.textContent = `#${totalIncome.toLocaleString()}`;
+  expensesElement.textContent = `#${totalExpenses.toLocaleString()}`;
 }
