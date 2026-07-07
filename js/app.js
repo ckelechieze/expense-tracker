@@ -1,4 +1,4 @@
-const transactions = [];
+const transactions = JSON.parse(localStorage.getItem("transactions")) || [];
 
 const descriptionInput = document.getElementById('description-input');
 const amountInput = document.getElementById('amount-input');
@@ -12,6 +12,7 @@ const expensesElement = document.getElementById('expenses');
 const transactionForm = document.getElementById('transaction-form');
 const transactionList = document.getElementById('transactions-list');
 
+// Clicking the form submit button
 transactionForm.addEventListener('submit', function (event) {
     event.preventDefault();
 
@@ -33,6 +34,7 @@ transactionForm.addEventListener('submit', function (event) {
   };
 
   transactions.push(transaction);
+  localStorage.setItem("transactions", JSON.stringify(transactions));
   displayTransactions();
   updateSummary();
   transactionForm.reset();
@@ -68,6 +70,9 @@ function displayTransactions() {
     // Add event listener to delete the transaction
     deleteButton.addEventListener("click", function () {
         transactions.splice(i, 1);
+
+        localStorage.setItem("transactions", JSON.stringify(transactions));
+        
         displayTransactions();
         updateSummary();
     })
@@ -123,3 +128,7 @@ function updateSummary() {
   incomeElement.textContent = `#${totalIncome.toLocaleString()}`;
   expensesElement.textContent = `#${totalExpenses.toLocaleString()}`;
 }
+
+// Display saved transactions when the page first loads
+displayTransactions();
+updateSummary();
