@@ -63,7 +63,7 @@ function displayTransactions() {
 
     const deleteButton = document.createElement('button');
     deleteButton.textContent = "Delete";
-    deleteButton.className = "ml-4 text-red-600 font-medium text-sm hover:text-red-800 bg-gray-200 px-2 py-1 rounded-lg";
+    deleteButton.className = "ml-4 text-red-600 font-medium text-sm hover:text-red-800 shadow px-2 py-1 rounded-lg";
 
     // Add event listener to delete the transaction
     deleteButton.addEventListener("click", function () {
