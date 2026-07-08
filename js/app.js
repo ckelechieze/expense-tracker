@@ -1,5 +1,9 @@
+// Load saved transaction from local storage
 const transactions = JSON.parse(localStorage.getItem("transactions")) || [];
 
+let editIndex = null;
+
+// Grabbnow what ing Elements
 const descriptionInput = document.getElementById('description-input');
 const amountInput = document.getElementById('amount-input');
 const typeSelect = document.getElementById('type-select');
@@ -11,12 +15,13 @@ const expensesElement = document.getElementById('expenses');
 
 const transactionForm = document.getElementById('transaction-form');
 const transactionList = document.getElementById('transactions-list');
+const submitBtn = document.getElementById("submit-button");
 
 // Clicking the form submit button
 transactionForm.addEventListener('submit', function (event) {
     event.preventDefault();
 
-    if (descriptionInput.value === "" || amountInput.value === "" || dateInput.value === "") {
+    if (descriptionInput.value === "" || amountInput.value === "" || dateInput.value === "" || typeSelect.value === "") {
       alert ("Please fill in all fields.");
       return;
     }
@@ -33,11 +38,18 @@ transactionForm.addEventListener('submit', function (event) {
     date: dateInput.value
   };
 
-  transactions.push(transaction);
+  if (editIndex === null) {
+    transactions.push(transaction);
+  } else {
+    transactions[editIndex] = transaction;
+    editIndex = null;
+  }
+
   localStorage.setItem("transactions", JSON.stringify(transactions));
   displayTransactions();
   updateSummary();
   transactionForm.reset();
+  submitBtn.textContent = "Add Transaction";
 });
 
 // Function to display transactions in the list
@@ -63,6 +75,10 @@ function displayTransactions() {
 
     const amount = document.createElement('p');
 
+    const editButton = document.createElement('button');
+    editButton.textContent = "Edit";
+    editButton.className = "text-slate-500 font-medium text-sm hover:text-blue-800 shadow px-2 py-1 rounded-lg"
+
     const deleteButton = document.createElement('button');
     deleteButton.textContent = "Delete";
     deleteButton.className = "ml-4 text-red-600 font-medium text-sm hover:text-red-800 shadow px-2 py-1 rounded-lg";
@@ -77,6 +93,17 @@ function displayTransactions() {
         updateSummary();
     })
 
+    // Event listener to edit a transaction
+    editButton.addEventListener("click", function () {
+      editIndex = i;
+
+      descriptionInput.value = transaction.description;
+      amountInput.value = transaction.amount;
+      typeSelect.value = transaction.type;
+      dateInput.value = transaction.date;
+      submitBtn.textContent = "Update Transaction";
+    });
+
     if (transaction.type === 'income') {
       amount.textContent = `+#${transaction.amount.toLocaleString()}`;
       amount.classList.add("text-green-600", "font-bold");
@@ -89,6 +116,7 @@ function displayTransactions() {
     leftSection.appendChild(date);
 
      rightSection.appendChild(amount);
+     rightSection.appendChild(editButton);
      rightSection.appendChild(deleteButton);
 
     transactionCard.appendChild(leftSection);
