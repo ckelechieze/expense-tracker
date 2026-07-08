@@ -3,7 +3,7 @@ const transactions = JSON.parse(localStorage.getItem("transactions")) || [];
 
 let editIndex = null;
 
-// Grabbnow what ing Elements
+// Grabbing Elements
 const descriptionInput = document.getElementById('description-input');
 const amountInput = document.getElementById('amount-input');
 const typeSelect = document.getElementById('type-select');
@@ -13,22 +13,59 @@ const balanceElement = document.getElementById('balance');
 const incomeElement = document.getElementById('income');
 const expensesElement = document.getElementById('expenses');
 
+const descriptionError = document.getElementById("description-error");
+const amountError = document.getElementById("amount-error");
+const typeError = document.getElementById("type-error");
+const dateError = document.getElementById("date-error");
+
 const transactionForm = document.getElementById('transaction-form');
 const transactionList = document.getElementById('transactions-list');
 const submitBtn = document.getElementById("submit-button");
-cancelBtn = document.getElementById("cancel-button");
+const cancelBtn = document.getElementById("cancel-button");
 
 // Clicking the form submit button
 transactionForm.addEventListener('submit', function (event) {
     event.preventDefault();
 
-    if (descriptionInput.value === "" || amountInput.value === "" || dateInput.value === "" || typeSelect.value === "") {
-      alert ("Please fill in all fields.");
+    descriptionError.textContent = "";
+    descriptionError.classList.add("hidden");
+
+    amountError.textContent = "";
+    amountError.classList.add("hidden");
+
+    typeError.textContent = "";
+    typeError.classList.add("hidden");
+
+    dateError.textContent = "";
+    dateError.classList.add("hidden");
+
+    if (descriptionInput.value.trim() === "") {
+      descriptionError.textContent = "Description is required!";
+      descriptionError.classList.remove("hidden");
+      return;
+    }
+
+    if (amountInput.value.trim() === "") {
+      amountError.textContent = "Amount is required!";
+      amountError.classList.remove("hidden");
       return;
     }
 
     if (Number(amountInput.value) <= 0) {
-      alert("Amount must be greater than zero.");
+      amountError.textContent = "Amount must be greater than zero.";
+      amountError.classList.remove("hidden");
+      return;
+    }
+
+    if (typeSelect.value.trim() === "") {
+      typeError.textContent = "Please select a type!";
+      typeError.classList.remove("hidden");
+      return;
+    }
+
+    if (dateInput.value.trim() === "") {
+      dateError.textContent = "Please select a date";
+      dateError.classList.remove("hidden");
       return;
     }
 
