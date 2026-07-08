@@ -16,6 +16,7 @@ const expensesElement = document.getElementById('expenses');
 const transactionForm = document.getElementById('transaction-form');
 const transactionList = document.getElementById('transactions-list');
 const submitBtn = document.getElementById("submit-button");
+cancelBtn = document.getElementById("cancel-button");
 
 // Clicking the form submit button
 transactionForm.addEventListener('submit', function (event) {
@@ -50,6 +51,7 @@ transactionForm.addEventListener('submit', function (event) {
   updateSummary();
   transactionForm.reset();
   submitBtn.textContent = "Add Transaction";
+  cancelBtn.classList.add("hidden");
 });
 
 // Function to display transactions in the list
@@ -58,7 +60,7 @@ function displayTransactions() {
   for (let i = 0; i < transactions.length; i++) {
     const transaction = transactions[i];
     const transactionCard = document.createElement('div');
-    transactionCard.className = "flex justify-between items-center bg-gray-200 rounded-lg p-4 mb-3";
+    transactionCard.className = "flex justify-between items-center bg-gray-200 rounded-lg p-3 mb-3";
 
     const leftSection = document.createElement('div');
     leftSection.className = "flex flex-col";
@@ -75,9 +77,12 @@ function displayTransactions() {
 
     const amount = document.createElement('p');
 
+    const buttonContainer = document.createElement('div');
+    buttonContainer.className = "flex flex items-center";
+
     const editButton = document.createElement('button');
     editButton.textContent = "Edit";
-    editButton.className = "text-slate-500 font-medium text-sm hover:text-blue-800 shadow px-2 py-1 rounded-lg"
+    editButton.className = "text-slate-500 font-medium text-sm hover:text-blue-800 shadow px-2 py-1 rounded-lg";
 
     const deleteButton = document.createElement('button');
     deleteButton.textContent = "Delete";
@@ -85,12 +90,14 @@ function displayTransactions() {
 
     // Add event listener to delete the transaction
     deleteButton.addEventListener("click", function () {
+      if (confirm("Are you sure you want to delete this transaction?")) {
         transactions.splice(i, 1);
 
         localStorage.setItem("transactions", JSON.stringify(transactions));
         
         displayTransactions();
         updateSummary();
+      }
     })
 
     // Event listener to edit a transaction
@@ -102,22 +109,33 @@ function displayTransactions() {
       typeSelect.value = transaction.type;
       dateInput.value = transaction.date;
       submitBtn.textContent = "Update Transaction";
+      cancelBtn.classList.remove("hidden");
     });
 
+    // Event listener to cancel edit
+    cancelBtn.addEventListener("click", function () {
+      editIndex = null;
+      transactionForm.reset();
+      submitBtn.textContent = "Add Transaction";
+      cancelBtn.classList.add("hidden");
+    })
+
     if (transaction.type === 'income') {
-      amount.textContent = `+#${transaction.amount.toLocaleString()}`;
+      amount.textContent = `+₦${transaction.amount.toLocaleString()}`;
       amount.classList.add("text-green-600", "font-bold");
     } else {
-      amount.textContent = `-#${transaction.amount.toLocaleString()}`;
+      amount.textContent = `-₦${transaction.amount.toLocaleString()}`;
       amount.classList.add("text-red-600", "font-bold");
     }
 
     leftSection.appendChild(description);
     leftSection.appendChild(date);
 
+    buttonContainer.appendChild(editButton);
+    buttonContainer.appendChild(deleteButton);
+
      rightSection.appendChild(amount);
-     rightSection.appendChild(editButton);
-     rightSection.appendChild(deleteButton);
+     rightSection.appendChild(buttonContainer);
 
     transactionCard.appendChild(leftSection);
     transactionCard.appendChild(rightSection);
@@ -152,9 +170,9 @@ function updateSummary() {
 
   balance = totalIncome - totalExpenses;
 
-  balanceElement.textContent = `#${balance.toLocaleString()}`;
-  incomeElement.textContent = `#${totalIncome.toLocaleString()}`;
-  expensesElement.textContent = `#${totalExpenses.toLocaleString()}`;
+  balanceElement.textContent = `₦${balance.toLocaleString()}`;
+  incomeElement.textContent = `₦${totalIncome.toLocaleString()}`;
+  expensesElement.textContent = `₦${totalExpenses.toLocaleString()}`;
 }
 
 // Display saved transactions when the page first loads
