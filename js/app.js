@@ -107,10 +107,11 @@ function displayTransactions() {
 
     const description = document.createElement('p');
     description.textContent = transaction.description;
+    description.className = "font-semibold text-gray-500";
 
     const date = document.createElement('p');
     date.textContent = formatDate(transaction.date);
-    date.classList.add("text-gray-500", "text-sm");
+    date.className = "text-slate-500 text-sm";
 
     const amount = document.createElement('p');
 
