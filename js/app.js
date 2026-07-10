@@ -23,6 +23,7 @@ const transactionList = document.getElementById('transactions-list');
 const submitBtn = document.getElementById("submit-button");
 const cancelBtn = document.getElementById("cancel-button");
 const filterSelect = document.getElementById("filter-select");
+const searchBox = document.getElementById("search-box");
 
 // Clicking the form submit button
 transactionForm.addEventListener('submit', function (event) {
@@ -115,7 +116,7 @@ function displayTransactions() {
   transactionList.innerHTML = "";
   let filteredTransactions = transactions;
   
-  // Filtering transaction list
+  // Filtering transaction list by type
     if (filterSelect.value === "income") {
     filteredTransactions = transactions.filter(
       transaction => transaction.type === "income"
@@ -127,6 +128,12 @@ function displayTransactions() {
       return transaction.type === "expense";
     })
   }
+
+  // Filtering by search
+  const searchText = searchBox.value.trim().toLowerCase();
+  filteredTransactions = filteredTransactions.filter(function (transaction) {
+    return transaction.description.toLowerCase().includes(searchText);
+  });
 
   for (let i = 0; i < filteredTransactions.length; i++) {
     const transaction = filteredTransactions[i];
@@ -253,6 +260,11 @@ function updateSummary() {
 // Filtering transaction eventListener
 filterSelect.addEventListener("change", function () {
   displayTransactions();
+});
+
+// Event listener for search
+searchBox.addEventListener("input", function () {
+    displayTransactions();
 });
 
 // Display saved transactions when the page first loads
