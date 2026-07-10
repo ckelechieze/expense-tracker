@@ -1,7 +1,7 @@
 // Load saved transaction from local storage
 const transactions = JSON.parse(localStorage.getItem("transactions")) || [];
 
-let editIndex = null;
+let editId = null;
 
 // Grabbing Elements
 const descriptionInput = document.getElementById('description-input');
@@ -22,6 +22,7 @@ const transactionForm = document.getElementById('transaction-form');
 const transactionList = document.getElementById('transactions-list');
 const submitBtn = document.getElementById("submit-button");
 const cancelBtn = document.getElementById("cancel-button");
+const filterSelect = document.getElementById("filter-select");
 
 // Clicking the form submit button
 transactionForm.addEventListener('submit', function (event) {
@@ -70,17 +71,35 @@ transactionForm.addEventListener('submit', function (event) {
     }
 
   const transaction = {
+    id: Date.now(),
     description: descriptionInput.value,
     amount: Number(amountInput.value),
     type: typeSelect.value,
     date: dateInput.value
   };
 
-  if (editIndex === null) {
+  if (editId === null) {
+    const transaction = {
+        id: Date.now(),
+        description: descriptionInput.value,
+        amount: Number(amountInput.value),
+        type: typeSelect.value,
+        date: dateInput.value
+    };
     transactions.push(transaction);
   } else {
-    transactions[editIndex] = transaction;
-    editIndex = null;
+    const index = transactions.findIndex(function (transaction) {
+    return transaction.id === editId;
+    });
+    const transaction = {
+        id: transactions[index].id,
+        description: descriptionInput.value,
+        amount: Number(amountInput.value),
+        type: typeSelect.value,
+        date: dateInput.value
+    };
+    transactions[index] = transaction;
+    editId = null;
   }
 
   localStorage.setItem("transactions", JSON.stringify(transactions));
@@ -94,8 +113,23 @@ transactionForm.addEventListener('submit', function (event) {
 // Function to display transactions in the list
 function displayTransactions() {
   transactionList.innerHTML = "";
-  for (let i = 0; i < transactions.length; i++) {
-    const transaction = transactions[i];
+  let filteredTransactions = transactions;
+  
+  // Filtering transaction list
+    if (filterSelect.value === "income") {
+    filteredTransactions = transactions.filter(
+      transaction => transaction.type === "income"
+    );
+  }
+
+  if (filterSelect.value === "expense") {
+    filteredTransactions = transactions.filter(function (transaction) {
+      return transaction.type === "expense";
+    })
+  }
+
+  for (let i = 0; i < filteredTransactions.length; i++) {
+    const transaction = filteredTransactions[i];
     const transactionCard = document.createElement('div');
     transactionCard.className = "flex justify-between items-center bg-gray-200 rounded-lg p-3 mb-3";
 
@@ -129,7 +163,10 @@ function displayTransactions() {
     // Add event listener to delete the transaction
     deleteButton.addEventListener("click", function () {
       if (confirm("Are you sure you want to delete this transaction?")) {
-        transactions.splice(i, 1);
+        const index = transactions.findIndex(function (item) {
+        return item.id === transaction.id;
+        });
+        transactions.splice(index, 1);
 
         localStorage.setItem("transactions", JSON.stringify(transactions));
         
@@ -140,7 +177,7 @@ function displayTransactions() {
 
     // Event listener to edit a transaction
     editButton.addEventListener("click", function () {
-      editIndex = i;
+      editId = transaction.id;
 
       descriptionInput.value = transaction.description;
       amountInput.value = transaction.amount;
@@ -152,7 +189,7 @@ function displayTransactions() {
 
     // Event listener to cancel edit
     cancelBtn.addEventListener("click", function () {
-      editIndex = null;
+      editId = null;
       transactionForm.reset();
       submitBtn.textContent = "Add Transaction";
       cancelBtn.classList.add("hidden");
@@ -212,6 +249,11 @@ function updateSummary() {
   incomeElement.textContent = `₦${totalIncome.toLocaleString()}`;
   expensesElement.textContent = `₦${totalExpenses.toLocaleString()}`;
 }
+
+// Filtering transaction eventListener
+filterSelect.addEventListener("change", function () {
+  displayTransactions();
+});
 
 // Display saved transactions when the page first loads
 displayTransactions();
