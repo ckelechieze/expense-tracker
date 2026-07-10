@@ -24,6 +24,7 @@ const submitBtn = document.getElementById("submit-button");
 const cancelBtn = document.getElementById("cancel-button");
 const filterSelect = document.getElementById("filter-select");
 const searchBox = document.getElementById("search-box");
+const toast = document.getElementById("toast");
 
 // Clicking the form submit button
 transactionForm.addEventListener('submit', function (event) {
@@ -71,14 +72,6 @@ transactionForm.addEventListener('submit', function (event) {
       return;
     }
 
-  const transaction = {
-    id: Date.now(),
-    description: descriptionInput.value,
-    amount: Number(amountInput.value),
-    type: typeSelect.value,
-    date: dateInput.value
-  };
-
   if (editId === null) {
     const transaction = {
         id: Date.now(),
@@ -88,6 +81,7 @@ transactionForm.addEventListener('submit', function (event) {
         date: dateInput.value
     };
     transactions.push(transaction);
+    showToast("✅ Transaction added!");
   } else {
     const index = transactions.findIndex(function (transaction) {
     return transaction.id === editId;
@@ -101,6 +95,7 @@ transactionForm.addEventListener('submit', function (event) {
     };
     transactions[index] = transaction;
     editId = null;
+    showToast("✏️ Transaction updated!");
   }
 
   localStorage.setItem("transactions", JSON.stringify(transactions));
@@ -138,7 +133,7 @@ function displayTransactions() {
   for (let i = 0; i < filteredTransactions.length; i++) {
     const transaction = filteredTransactions[i];
     const transactionCard = document.createElement('div');
-    transactionCard.className = "flex justify-between items-center bg-gray-200 rounded-lg p-3 mb-3";
+    transactionCard.className = "flex justify-between items-center bg-gray-200 rounded-lg p-3 mb-3 opacity-0 translate-y-4 transition-all duration-1500";
 
     const leftSection = document.createElement('div');
     leftSection.className = "flex flex-col";
@@ -179,6 +174,7 @@ function displayTransactions() {
         
         displayTransactions();
         updateSummary();
+        showToast("🗑️ Transaction deleted!");
       }
     })
 
@@ -193,14 +189,6 @@ function displayTransactions() {
       submitBtn.textContent = "Update Transaction";
       cancelBtn.classList.remove("hidden");
     });
-
-    // Event listener to cancel edit
-    cancelBtn.addEventListener("click", function () {
-      editId = null;
-      transactionForm.reset();
-      submitBtn.textContent = "Add Transaction";
-      cancelBtn.classList.add("hidden");
-    })
 
     if (transaction.type === 'income') {
       amount.textContent = `+₦${transaction.amount.toLocaleString()}`;
@@ -222,6 +210,9 @@ function displayTransactions() {
     transactionCard.appendChild(leftSection);
     transactionCard.appendChild(rightSection);
     transactionList.appendChild(transactionCard);
+    setTimeout(function () {
+    transactionCard.classList.remove("opacity-0", "translate-y-4");
+    }, 10);
   }
 }
 
@@ -256,6 +247,28 @@ function updateSummary() {
   incomeElement.textContent = `₦${totalIncome.toLocaleString()}`;
   expensesElement.textContent = `₦${totalExpenses.toLocaleString()}`;
 }
+
+// Function to show notification
+function showToast(message) {
+
+  toast.textContent = message;
+
+  toast.classList.remove("opacity-0", "translate-y-4");
+  toast.classList.add("opacity-100", "translate-y-0");
+
+  setTimeout(function () {
+    toast.classList.remove("opacity-100", "translate-y-0");
+    toast.classList.add("opacity-0", "translate-y-4");
+  }, 2000);
+}
+
+// Event listener to cancel edit
+    cancelBtn.addEventListener("click", function () {
+      editId = null;
+      transactionForm.reset();
+      submitBtn.textContent = "Add Transaction";
+      cancelBtn.classList.add("hidden");
+    })
 
 // Filtering transaction eventListener
 filterSelect.addEventListener("change", function () {
