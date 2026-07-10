@@ -26,6 +26,10 @@ const filterSelect = document.getElementById("filter-select");
 const searchBox = document.getElementById("search-box");
 const toast = document.getElementById("toast");
 
+const balanceCard = document.getElementById("balance-card");
+const incomeCard = document.getElementById("income-card");
+const expenseCard = document.getElementById("expense-card");
+
 // Clicking the form submit button
 transactionForm.addEventListener('submit', function (event) {
     event.preventDefault();
@@ -246,6 +250,8 @@ function updateSummary() {
   balanceElement.textContent = `₦${balance.toLocaleString()}`;
   incomeElement.textContent = `₦${totalIncome.toLocaleString()}`;
   expensesElement.textContent = `₦${totalExpenses.toLocaleString()}`;
+
+  animateSummaryCards();
 }
 
 // Function to show notification
@@ -260,6 +266,26 @@ function showToast(message) {
     toast.classList.remove("opacity-100", "translate-y-0");
     toast.classList.add("opacity-0", "translate-y-4");
   }, 2000);
+}
+
+// Function to animate summary cards
+function animateSummaryCards() {
+  const cards = [balanceCard, incomeCard, expenseCard];
+
+  cards.forEach(card => {
+    // Reset first
+    card.classList.remove("scale-110");
+
+    // Force browser reflow
+    void card.offsetWidth;
+
+    // Add animation class again
+    card.classList.add("scale-110");
+
+    setTimeout(() => {
+      card.classList.remove("scale-110");
+    }, 300);
+  });
 }
 
 // Event listener to cancel edit

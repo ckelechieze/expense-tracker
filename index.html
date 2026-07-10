@@ -21,7 +21,7 @@
     </header>
     
     <!-- Balance Section -->
-    <section class="flex flex-col justify-between items-center w-[50%]text-center mt-6 shadow rounded-lg p-6 bg-[#e8f0fe] mx-4">
+    <section id="balance-card" class="flex flex-col justify-between items-center text-center mt-6 shadow rounded-lg p-6 bg-[#e8f0fe] mx-4 transition-transform duration-300">
         <h2 class="text-slate-500 text-sm uppercase tracking-[5px]">
             Current Balance
         </h2>
@@ -36,7 +36,7 @@
      <!-- Income and Expenses Sections -->
     <section class="grid grid-cols-2 gap-4 mt-8 px-4">
         <!-- Income Card -->
-        <div class="bg-[#e8f0fe] rounded-lg shadow p-4 text-center">
+        <div id="income-card" class="bg-[#e8f0fe] rounded-lg shadow p-4 text-center transition-transform duration-300">
             <h3 class="text-slate-500 text-sm">Income</h3>
             <p class="text-green-600 text-2xl font-bold mt-2" id="income">
                 #0.00
@@ -44,7 +44,7 @@
         </div>
 
         <!-- Expenses Card -->
-        <div class="bg-[#e8f0fe] rounded-lg shadow p-4 text-center">
+        <div id="expense-card" class="bg-[#e8f0fe] rounded-lg shadow p-4 text-center transition-transform duration-300">
             <h3 class="text-slate-500 text-sm">Expenses</h3>
             <p class="text-red-600 text-2xl font-bold mt-2" id="expenses">
                 #0.00
@@ -159,7 +159,8 @@
 
         </form>
      </section>
-
+     
+     <!-- Filter -->
      <div class="px-6 mt-8">
         <select 
           name="filter-select" 
@@ -199,7 +200,7 @@
   <!-- Notification -->
    <div
     id="toast"
-    class="fixed top-5 right-5 bg-green-600 text-white px-4 py-3 rounded-lg shadow-lg opacity-0 translate-y-4 transition-all duration-1000 pointer-events-none">Notification
+    class="fixed top-5 right-5 bg-green-600 text-white px-4 py-3 rounded-lg shadow-lg opacity-0 translate-y-4 transition-all duration-1000 pointer-events-none">
    </div>
    <script src="./js/app.js"></script>
 </body>
