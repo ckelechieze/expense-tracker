@@ -270,22 +270,19 @@ function showToast(message) {
 
 // Function to animate summary cards
 function animateSummaryCards() {
-  const cards = [balanceCard, incomeCard, expenseCard];
+    const cards = [balanceCard, incomeCard, expenseCard];
 
-  cards.forEach(card => {
-    // Reset first
-    card.classList.remove("scale-110");
+    cards.forEach(function (card) {
+        card.classList.remove("scale-110");
 
-    // Force browser reflow
-    void card.offsetWidth;
+        requestAnimationFrame(function () {
+            card.classList.add("scale-110");
 
-    // Add animation class again
-    card.classList.add("scale-110");
-
-    setTimeout(() => {
-      card.classList.remove("scale-110");
-    }, 300);
-  });
+            setTimeout(function () {
+                card.classList.remove("scale-110");
+            }, 300);
+        });
+    });
 }
 
 // Event listener to cancel edit
